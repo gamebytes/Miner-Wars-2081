@@ -922,9 +922,11 @@ namespace MinerWars.AppCode.Game.Render
                             //m_device.DepthStencilState = DepthStencilState.DepthRead;
                             
                             MyStateObjects.DepthStencil_TestFarObject_DepthReadOnly.Apply();
+                            MyStateObjects.HoloRasterizerState.Apply();
                             /*dnsShader.SetDepthTextureNear(GetRenderTarget(MyRenderTargets.Lod0Depth));
                             dnsShader.SetDepthTextureFar(GetRenderTarget(MyRenderTargets.Lod1Depth));
                              */
+
                         }
                         else
                         {
@@ -1751,24 +1753,23 @@ namespace MinerWars.AppCode.Game.Render
 
             m_currentLodDrawPass = MyLodTypeEnum.LOD_NEAR;
 
-            if (!MyRenderConstants.RenderQualityProfile.ForwardRender)
-                MyCamera.SetNearObjectsClipPlanes(true);
+            //if (!MyRenderConstants.RenderQualityProfile.ForwardRender)
+            //    MyCamera.SetNearObjectsClipPlanes(true);
 
             DrawScene_OneLodLevel_Draw(drawStencilTechnique, collectTransparentElements);
             
             if (!MyRenderConstants.RenderQualityProfile.ForwardRender)
             {
-                MyCamera.ResetClipPlanes(true);
+                //MyCamera.ResetClipPlanes(true);
 
                 // Need to clear only depth
-                m_device.Clear(ClearFlags.ZBuffer, new ColorBGRA(0), 1, 0);
-                MyStateObjects.DepthStencil_TestFarObject.Apply();
+                //m_device.Clear(ClearFlags.ZBuffer, new ColorBGRA(0), 1, 0);
             }
             else
             {
                 BlendState.Opaque.Apply();
-                DepthStencilState.Default.Apply();
             }
+            DepthStencilState.Default.Apply();
         }
 
         private static void DrawScene_OneLodLevel_Draw(bool drawStencilTechnique, bool collectTransparentElements)
